@@ -112,4 +112,4 @@ def delete_task(task_id, list_name):
     return redirect(url_for('view_list', list_name=list_name))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=8080)
