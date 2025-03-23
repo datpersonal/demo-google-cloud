@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ToDo App</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: scale(1.05);
+        }
+        .delete-btn {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .lists-container {
+            margin-bottom: 20px;
+        }
+        .list-item {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .list-item:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Todo List</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="list_name" placeholder="List Name" required>
+        <input type="text" name="content" placeholder="New Task" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Available Lists</h2>
+    <div class="lists-container">
+        {% for list in lists %}
+            <a class="list-item" href="{{ url_for('view_list', list_name=list[0]) }}">{{ list[0] }}</a><br>
+        {% endfor %}
+    </div>
+
+    {% if list_name %}
+        <h2>{{ list_name }}</h2>
+        <!-- Back to Home Button -->
+        <a href="{{ url_for('home') }}">
+            <button class="back-btn">Back to Home</button>
+        </a>
+    {% endif %}
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task[2] }}
+                <form action="/delete/{{ task[0] }}/{{ list_name }}" method="post" style="display:inline;">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
